@@ -1,0 +1,25 @@
+{
+  "name": "coursera-algorithms",
+  "version": "1.0.0",
+  "description": "Notes and annotations from Coursera's Algorithm's Part 1 course: https://www.coursera.org/learn/algorithms-part1",
+  "main": ".huskyrc.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/larrybotha/coursera-algorithms.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/larrybotha/coursera-algorithms/issues"
+  },
+  "homepage": "https://github.com/larrybotha/coursera-algorithms#readme",
+  "devDependencies": {
+    "doctoc": "^1.4.0",
+    "husky": "^3.0.8",
+    "lint-staged": "^9.4.2"
+  }
+}

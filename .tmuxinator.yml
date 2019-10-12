@@ -1,0 +1,9 @@
+name: coursera-algorithms
+root: <%= Dir.pwd %>
+
+windows:
+  - frontend:
+      layout: main-vertical
+      panes:
+        - vim
+        -
