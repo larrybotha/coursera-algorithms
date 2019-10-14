@@ -12,6 +12,9 @@
   - [Implementing operations](#implementing-operations)
   - [Union-find data-type](#union-find-data-type)
   - [Dynamic-connectivity client](#dynamic-connectivity-client)
+- [Quick-find [eager approach]](#quick-find-eager-approach)
+  - [Evaluation of quick find](#evaluation-of-quick-find)
+  - [Quadratic algorithms do not scale](#quadratic-algorithms-do-not-scale)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -120,3 +123,85 @@ We'll need to evaluate our algorithm. We'll need a client that:
   - if they are not connected, connect them and print pair
 
 [dynamic-connectivity-client.js](./dynamic-connectivity-client.js)
+
+## Quick-find [eager approach]
+
+Quick-find has the following data structure:
+
+- integer array of ids, size N
+- `p` and `q` are connected iff they have the same id
+
+e.g.
+
+```
+object: 0 1 2 3 4 5 6 7 8 9
+id:     0 1 1 8 8 0 0 1 8 8
+
+- 0, 5, 6 are connected
+- 1, 2, 7 are connected
+- 3, 4, 8, 9 are connected
+
+# e.g.
+0   1 - 2   3 - 4
+|       |   |   |
+5 - 6   7   8   9
+```
+
+- `find`: check if `p` and `q` have the same id. e.g. `5` and `6` have the same
+    id, therefore they're connected
+- `union`: to merge components containin `p` and `q`, change all entries whose
+    id equals `id[p]` to `id[q]`. e.g.
+
+    ```
+    object: 0 1 2 3 4 5 6 7 8 9
+    id:     0 1 1 8 8 0 0 1 8 8
+
+    union(1, 6)
+
+    # change all objects with 1's id to 6's id
+
+    object: 0 1 2 3 4 5 6 7 8 9
+    id:     1 1 1 8 8 1 1 1 8 8
+            ^         ^ ^
+    ```
+
+[quick-find.js](./quick-find.js)
+
+### Evaluation of quick find
+
+- cost model: number of array accesses (read or write)
+
+    ```
+    | algorithm  | initialize | union | find |
+    | quick-find | N          | N     | 1    |
+    ```
+- defect: union is too expensive
+
+    If we evaluated N objects with the union commands, that would take quadratic
+    time, i.e. N^2 time
+
+**Note**: Quadratic time is just too slow and expensive. Quadratic time
+algorithms don't scale. As computers get bigger and faster, quadratic algorithms
+get slower.
+
+### Quadratic algorithms do not scale
+
+A rough standard for understanding. We have some computer with the following
+properties:
+
+- can perform 10^9 operations per second
+- can hold 10^9 entries in main memory
+- i.e. it can access every entry in approximately 1 second
+
+ This is problematic for a quadratic algorithm because:
+
+- if we attempted to access each entry and run a union command on that entry,
+    we'd perform 10^18 operations
+- this would take roughly 30 years to complete
+
+Quadaratic algorithms don't scale with technology:
+
+- a new computer may be 10x as fast
+- that same computer may have 10x as much memory; we'd want to solve a problem
+    that is 10x as big
+- a quadratic algorithm would be 10x slower
