@@ -56,7 +56,7 @@ Connected components: maximal _set_ of objects that are mutually connected.
 ### Implementing operations
 
 - _find query_: check if two objects are in the same component
-- union command_: replace components containing two objects with their union
+- _union command_: replace components containing two objects with their union
 
 e.g.
 
