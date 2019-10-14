@@ -8,6 +8,10 @@
 
 - [Steps to develop a useful algorithm](#steps-to-develop-a-useful-algorithm)
 - [Dynamic connectivity](#dynamic-connectivity)
+  - [Modeling connections](#modeling-connections)
+  - [Implementing operations](#implementing-operations)
+  - [Union-find data-type](#union-find-data-type)
+  - [Dynamic-connectivity client](#dynamic-connectivity-client)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -26,8 +30,93 @@
 
 - is there a path connecting nodes? i.e. boolean result, not "what is the path?"
 
-Modeling connections:
+### Modeling connections
 
 - reflexive: p is connected to p
 - symmetric: if p is connected to q, q is connected to p
 - transitive: if p is connected to q, and q is connected to r, p is connected to r
+
+Connected components: maximal _set_ of objects that are mutually connected.
+
+```
+0
+
+    1
+  /
+4 - 5
+
+2 - 3
+| / |
+6   7
+```
+
+### Implementing operations
+
+- _find query_: check if two objects are in the same component
+- union command_: replace components containing two objects with their union
+
+e.g.
+
+```
+# components before union
+{0} {1 4 5} {2 3 6 7}
+
+# perform union on 2 and 5
+union(2, 5)
+
+# merge two components
+{0} {1 4 5 2 3 6 7}
+```
+
+or
+
+```
+# initial
+0
+
+    1
+  /
+4 - 5
+
+2 - 3
+| / |
+6   7
+
+# after union(2, 5)
+0
+
+    1   2 - 3
+  /   /   / |
+4 - 5   6   7
+```
+
+### Union-find data-type
+
+With the above information, our goal is to define an efficient data structure
+for union-find.
+
+We have these considerations:
+
+- number of objects N can be huge
+- number of operations M can be huge
+- find queries and union commands can be intermixed
+
+Our API will look something like the following:
+
+- `unionFind(n: number)`: initialize data structure with `n` objects
+- `union(p: number, q: number): void`: perform a union on 2 objects
+- `connected(p: number, q: number): boolean`: are `p` and `p` in the same
+    component?
+- `find(p: number)`: find component
+- `count(): number`: get number of components
+
+### Dynamic-connectivity client
+
+We'll need to evaluate our algorithm. We'll need a client that:
+
+- read in number of objects N from stdio
+- repeats the following:
+  - read in pair of integers from stdio
+  - if they are not connected, connect them and print pair
+
+[dynamic-connectivity-client.js](./dynamic-connectivity-client.js)
