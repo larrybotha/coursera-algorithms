@@ -186,8 +186,7 @@ get slower.
 
 ### Quadratic algorithms do not scale
 
-A rough standard for understanding. We have some computer with the following
-properties:
+ We have some computer with the following properties:
 
 - can perform 10^9 operations per second
 - can hold 10^9 entries in main memory
