@@ -1,6 +1,6 @@
 # Coursera Algorithms: Week 1 - Union Find
 
-[Lecture notes](https://d3c33hcgiwev3.cloudfront.net/_b65e7611894ba175de27bd14793f894a_15UnionFind.pdf?Expires=1571011200&Signature=EVZllbjvme9Xh5BTh93rkOCHOPNc1smau0ml3CaGOw2oXFEvCbWu~vqS3jafsqTwA9iGhBqXS-Xy68J8zesSibRL8VgRxMaCpWIQznqBAOgTQKdqT0ush3ljNSdag~vU8V24HQF~aFzK4w-9~KOA7O75xXP1FAjemP6X3~MZ5ws_&Key-Pair-Id=APKAJLTNE6QMUY6HBC5A)
+[Lecture slides](https://www.coursera.org/learn/algorithms-part1/supplement/JgDHB/lecture-slides)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -15,6 +15,8 @@
 - [Quick-find [eager approach]](#quick-find-eager-approach)
   - [Evaluation of quick find](#evaluation-of-quick-find)
   - [Quadratic algorithms do not scale](#quadratic-algorithms-do-not-scale)
+- [Quick-union (lazy approach)](#quick-union-lazy-approach)
+  - [Evaluation of quick union](#evaluation-of-quick-union)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -149,7 +151,7 @@ id:     0 1 1 8 8 0 0 1 8 8
 
 - `find`: check if `p` and `q` have the same id. e.g. `5` and `6` have the same
     id, therefore they're connected
-- `union`: to merge components containin `p` and `q`, change all entries whose
+- `union`: to merge components containing `p` and `q`, change all entries whose
     id equals `id[p]` to `id[q]`. e.g.
 
     ```
@@ -204,3 +206,93 @@ Quadaratic algorithms don't scale with technology:
 - that same computer may have 10x as much memory; we'd want to solve a problem
     that is 10x as big
 - a quadratic algorithm would be 10x slower
+
+## Quick-union (lazy approach)
+
+Quick-find is too slow because of array iteration. An alternative is
+quick-union which uses a lazy approach; we try avoid doing work until we have
+to.
+
+Quick-union has the following data structure:
+
+- integer array `id[]` of size N
+- interpretation: `id[i]` is parent of `i`
+- root of `i` is `id[id[id[...id[i]...]]]`
+    - each item in the array can be thought of as representing an set of trees,
+        a forest
+    - each entry in the array is going to contain a reference to its parent in
+        the tree
+
+```
+# we have the array with ids of parents
+      0   1   2   3   4   5   6   7   8   9
+id[]  0   1   9   4   9   6   6   7   8   9
+
+0   1     9       6   7   8
+        /   \     |
+      2       4   5
+              |
+              3
+```
+
+Every item has a root, and singular components point to themselves.
+
+i.e. the root of 3 is 9, and the root of 5 is 6
+
+```
+connected(3, 5)
+// => false, they do not share the same root
+```
+
+- `find`: check if `p` and `q` have the same root
+- `union`: to merge components containing `p` and `q`, set the id of `p`s root
+    to the id of `q`s root. This requires only 1 operation, as opposed to
+    iterating over the full array of objects
+
+e.g. for `union`:
+
+```
+      0   1   2   3   4   5   6   7   8   9
+id[]  0   1   9   4   9   6   6   7   8   9
+
+union(3, 5)
+
+# result
+      0   1   2   3   4   5   6   7   8   9
+id[]  0   1   9   4   9   6   6   7   8   6
+                                          ^
+
+# or, visually
+
+0   1            6       7   8
+               /   \
+             9      5
+           /   \
+          2     4
+                |
+                3
+```
+
+[quick-union.js](./quick-union.js)
+
+### Evaluation of quick union
+
+- cost model: number of array accesses (read or write)
+
+    ```
+    | algorithm   | initialize | union | find |
+    | quick-find  | N          | N     | 1    |
+    | quick-union | N          | N     | N    |
+    ```
+
+    We have `N` for union and find because of our `while` loop, thus,
+    quick-union is also too slow.
+- defects:
+    - quick-find
+      - union is too expensive because we have `N` array accesses
+      - trees are flat, but it's too expensive to keep them flat
+    - quick-union
+      - trees can get tall
+      - find is expensive; we could have `N` array accesses. If we had a long
+          tree, and requested an item all the way at the bottom, we'd have to
+          traverse all of its parents in order to determine the root
