@@ -17,6 +17,12 @@
   - [Quadratic algorithms do not scale](#quadratic-algorithms-do-not-scale)
 - [Quick-union (lazy approach)](#quick-union-lazy-approach)
   - [Evaluation of quick union](#evaluation-of-quick-union)
+- [Quick-Union Improvements](#quick-union-improvements)
+  - [Improvement 1: weighting](#improvement-1-weighting)
+    - [Weighted quick-union analysis](#weighted-quick-union-analysis)
+    - [Proof](#proof)
+  - [Improvement 2: path compression](#improvement-2-path-compression)
+  - [Summary](#summary)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -296,3 +302,164 @@ id[]  0   1   9   4   9   6   6   7   8   6
       - find is expensive; we could have `N` array accesses. If we had a long
           tree, and requested an item all the way at the bottom, we'd have to
           traverse all of its parents in order to determine the root
+
+## Quick-Union Improvements
+
+Neither quick-find nor quick-union are fast enough.
+
+### Improvement 1: weighting
+
+[quick-find-weighted.js](./quick-union-weighted.js)
+
+Weighted quick-union:
+
+- modify quick-union to avoid tall trees
+- keep track of the size of each tree (number of objects in tree)
+- balance the tree by linking the root of the _smaller_ tree to the _larger_
+    tree
+    - a reasonable alternative is to use height or rank to union
+
+
+We'll look at the same union for quick-union and weighted quick-union
+
+```
+# the following graph will be the same for either strategy
+      0   1   2   3   4   5   6   7   8   9
+id[]  0   1   9   3   9   6   6   7   8   9
+
+0   1   3    9       6   7   8
+           /   \     |
+         2       4   5
+
+union(2, 5)
+
+# result quick-find; set root of 2 to root of 5
+      0   1   2   3   4   5   6   7   8   9
+id[]  0   1   9   3   9   6   6   7   8   6
+                                          ^
+
+0   1   3        6       7   8
+               /   \
+             9      5
+           /   \
+          2     4
+
+# result quick-union; set root of smaller tree to root of larger tree
+      0   1   2   3   4   5   6   7   8   9
+id[]  0   1   9   3   9   6   9   7   8   9
+
+0   1   3    9       7   8
+           / | \
+         2   4   6
+                 |
+                 5
+```
+
+Weighted quick-union has the following data structure:
+
+- same structure as quick-union, with the addition of a `sz[i]` array holding
+    the size of each root at `i`
+- `find`: check if `p` and `q` have the same root
+- `union`:
+    - link root of smaller tree to root of larger tree
+    - update `sz[i]` array
+
+#### Weighted quick-union analysis
+
+- running time:
+    - `find`: takes time proportional to depth of `p` and `q` (lg N where lg
+        represents log2)
+    - `union`: takes constant time, given roots
+
+We propose that for `find`, the depth of any node `x` is at most ln N, where N
+is the total number of objects in the data structure.
+
+#### Proof
+
+When does the depth of `x` increase?
+
+- `x` increases by 1 when tree T1 containing `x` is merged into another tree T2
+- the size of the tree containing `x` at least doubles since |T2| >= |T1|
+- the size of the tree containing `x` can double at most lg N times
+    - this is because any tree with depth `sqrt(N)` can only have new trees added
+        at its root. The sum of all of those trees weights cannot exceed the
+        total number of items in the data structure, so the tree will never get
+        taller than `sqrt(N)`
+
+Thus, we have the following performance table:
+
+    | algorithm            | initialize | union | find |
+    | --=                  | ---        | ---   | ---  |
+    | quick-find           | N          | N     | 1    |
+    | quick-union          | N          | N     | N    |
+    | quick-union weighted | N          | lg N  | lg N |
+
+Do we stop here because we've improved performance? No! There's a simple
+additional improvement.
+
+### Improvement 2: path compression
+
+[quick-find-path-compression.js](./quick-union-path-compression.js)
+
+Quick-union with path compression: after computing the root of `p`, set the root
+of each examined node to that root.
+
+e.g.
+
+```
+# without path compression
+
+                      0
+                      | \
+                      1   2
+                    / | \
+                  3   4   5
+                / |
+               6  7
+             /   \
+            8     9
+            |   /   \
+           10  11   12
+
+
+# with path compression; i.e. if finding the root of p, set all of p's parent's
+# roots to p's new root
+
+# let p be the node at 9
+
+                    0
+                    |
+    -----------------------------
+    |       |       |     |     |
+    9       6       3     1     2
+  /   \     |       |   /   \
+ 11   12    8       7  4     5
+            |
+           10
+
+```
+
+This will have a constant extra cost:
+
+- we went up the tree once to find the root
+- we'll go back up the tree along the same path to flatten it
+
+### Summary
+
+Weighted quick-union with path compression makes it possible to solve problems
+that could otherwise not be addressed.
+
+| algorithm                      | worst case time |
+| ---                            | ---             |
+| quick-find                     | M N             |
+| quick-union                    | M N             |
+| weighted QU                    | N + M log N      |
+| QU + path-compression          | N + M log N      |
+| weighted QU + path-compression | N + M lg* N      |
+
+_M union-find operations on a set of N objects_
+
+Example:
+
+- WQUPC reduces time from 30 years to 6 seconds
+- a supercomputer won't help much; a good algorithm enables the solution
