@@ -281,6 +281,7 @@ id[]  0   1   9   4   9   6   6   7   8   6
 ### Evaluation of quick union
 
 - cost model: number of array accesses (read or write)
+
     | algorithm   | initialize | union | find |
     | quick-find  | N          | N     | 1    |
     | quick-union | N          | N     | N    |
