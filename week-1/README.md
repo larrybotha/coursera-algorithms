@@ -344,11 +344,11 @@ id[]  0   1   9   3   9   6   6   7   8   6
       0   1   2   3   4   5   6   7   8   9
 id[]  0   1   9   3   9   6   9   7   8   9
 
-0   1   3    9       7   8
-           / | \
-         2   4   6
-                 |
-                 5
+0   1   3      9       7   8
+             / | \
+           2   4   6
+                   |
+                   5
 ```
 
 Weighted quick-union has the following data structure:
