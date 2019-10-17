@@ -384,11 +384,11 @@ When does the depth of `x` increase?
 
 Thus, we have the following performance table:
 
-    | algorithm            | initialize | union | find |
-    | ---                  | ---        | ---   | ---  |
-    | quick-find           | N          | N     | 1    |
-    | quick-union          | N          | N     | N    |
-    | quick-union weighted | N          | lg N  | lg N |
+| algorithm            | initialize | union | find |
+| ---                  | ---        | ---   | ---  |
+| quick-find           | N          | N     | 1    |
+| quick-union          | N          | N     | N    |
+| quick-union weighted | N          | lg N  | lg N |
 
 Do we stop here because we've improved performance? No! There's a simple
 additional improvement.
