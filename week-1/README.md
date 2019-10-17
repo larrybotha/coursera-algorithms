@@ -23,6 +23,12 @@
     - [Proof](#proof)
   - [Improvement 2: path compression](#improvement-2-path-compression)
   - [Summary](#summary)
+- [Union-find applications](#union-find-applications)
+  - [Percolation](#percolation)
+    - [Likelihood of percolation](#likelihood-of-percolation)
+    - [Percolation phase transition](#percolation-phase-transition)
+    - [Monte carlo simulation](#monte-carlo-simulation)
+    - [Dynamic connectivity solutino to estimate percolation threshold](#dynamic-connectivity-solutino-to-estimate-percolation-threshold)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -459,3 +465,136 @@ Example:
 
 - WQUPC reduces time from 30 years to 6 seconds
 - a supercomputer won't help much; a good algorithm enables the solution
+
+## Union-find applications
+
+- [percolation](https://www.wikiwand.com/en/Percolation)
+- games (Go, Hex)
+- [dynamic connectivity](https://www.wikiwand.com/en/Dynamic_connectivity) (as above)
+- [least common ancestor](https://www.wikiwand.com/en/Lowest_common_ancestor)
+- equivalance of finite state automata
+- many more...
+
+### Percolation
+
+A model for many physical systems:
+
+- N-by-N grid of sites
+- each site is open with probability p, or blocked with probability 1 - p
+- the system percolates iff the top and bottom are connected by open sites
+
+```
+◼ - blocked site
+◻ - open site
+
+◼ ◻ ◻ ◼ ◼ ◻           ◼ ◻ ◻ ◼ ◼ ◻
+◼ ◼ ◻ ◻ ◼ ◼           ◼ ◼ ◻ ◻ ◼ ◼
+◻ ◼ ◼ ◻ ◼ ◼           ◻ ◼ ◼ ◼ ◼ ◼
+◼ ◻ ◻ ◻ ◼ ◻           ◼ ◻ ◻ ◻ ◼ ◻
+◼ ◻ ◼ ◼ ◼ ◻           ◼ ◻ ◼ ◼ ◼ ◻
+◼ ◻ ◻ ◼ ◻ ◻           ◼ ◻ ◻ ◼ ◻ ◻
+
+percolates            !percolates
+```
+
+This applies to physical systems:
+
+| model              | system     | open site | blocked site | effect of percolation |
+| ---                | ---        | ---       | ---          | ---                   |
+| electricity        | material   | conductor | insulator    | conducts              |
+| fluid flow         | material   | empty     | blocked      | porous                |
+| social interaction | population | person    | empty        | communication         |
+
+#### Likelihood of percolation
+
+The likelihood of percolation is dependent on the probability of vacancy for
+sites.
+
+The higher the probability of vacancy, the higher the likelihood of percolation.
+
+#### Percolation phase transition
+
+When N is large, theory guarantees a sharp threshold p*
+
+- p > p*: system almost certainly percolates
+- p < p*: system almost certainly does not percolate
+- p* is approximately 0.5926
+
+No one knows the reason for this, only that through computations we can show
+this. The compuation used to determine this is quick-union.
+
+#### Monte carlo simulation
+
+This is how we can determine the value for p*:
+
+- initialise whole N-by-N grid to be blocked
+- declare random sites to be open until top is connected to bottom
+- the vacancy percentage estimates p*
+
+#### Dynamic connectivity solutino to estimate percolation threshold
+
+How do we determine whether an N-by-N system percolates?
+
+1. create an object for each site and name them 0 - (N^2 -1)
+2. sites are in the same component if connected by open sites
+3. introduce 2 virtual sites and connections to top and bottom, and check if
+   virtual top site is connected to bottom site
+    - a naive approach would be to check if any site on bottom row is connected to
+      site on top row.  This would be a brute force approach with N^2 calls to
+      connected sites
+
+```
+N = 5
+◼ - blocked site
+◻ - open site
+
+◻ ◻ ◼ ◻ ◼
+◼ ◼ ◼ ◻ ◼
+◼ ◻ ◼ ◻ ◻
+◻ ◼ ◻ ◼ ◼
+◻ ◻ ◼ ◻ ◻
+
+# 1
+
+0   1   2   3   4
+
+5   6   7   8   9
+
+10  11  12  13  14
+
+15  16  17  18  19
+
+20  21  22  23  24
+
+
+# 3
+        ◉           <- virtual site
+-----------------
+|   |   |   |   |
+◉---◉   ◉   ◉   ◉
+            |
+◉   ◉   ◉   ◉   ◉
+            |
+◉   ◉   ◉   ◉---◉
+
+◉   ◉   ◉   ◉   ◉
+|
+◉---◉   ◉   ◉---◉
+|   |   |   |   |
+-----------------
+        ◉           <- virtual site
+
+```
+
+How do we model opening a new site?
+
+- connect a newly opened site to all of its adjacent open sites
+    - this will result in up to 4 calls to `union()`
+
+What is the percolation threshold?
+
+- using this strategy with quick union we can estimate the threshold
+- +-0.592764 for large square lattices (this constant is only known through
+    simulation; there is no mathematical proof yet).
+
+A fast algorithm enables an accurate answer to a scientific question.
