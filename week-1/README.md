@@ -28,7 +28,7 @@
     - [Likelihood of percolation](#likelihood-of-percolation)
     - [Percolation phase transition](#percolation-phase-transition)
     - [Monte carlo simulation](#monte-carlo-simulation)
-    - [Dynamic connectivity solutino to estimate percolation threshold](#dynamic-connectivity-solutino-to-estimate-percolation-threshold)
+    - [Dynamic connectivity solution to estimate percolation threshold](#dynamic-connectivity-solution-to-estimate-percolation-threshold)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -531,7 +531,7 @@ This is how we can determine the value for p*:
 - declare random sites to be open until top is connected to bottom
 - the vacancy percentage estimates p*
 
-#### Dynamic connectivity solutino to estimate percolation threshold
+#### Dynamic connectivity solution to estimate percolation threshold
 
 How do we determine whether an N-by-N system percolates?
 
