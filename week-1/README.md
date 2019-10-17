@@ -178,11 +178,8 @@ id:     0 1 1 8 8 0 0 1 8 8
 ### Evaluation of quick find
 
 - cost model: number of array accesses (read or write)
-
-    ```
     | algorithm  | initialize | union | find |
     | quick-find | N          | N     | 1    |
-    ```
 - defect: union is too expensive
 
     If we evaluated N objects with the union commands, that would take quadratic
@@ -284,12 +281,9 @@ id[]  0   1   9   4   9   6   6   7   8   6
 ### Evaluation of quick union
 
 - cost model: number of array accesses (read or write)
-
-    ```
     | algorithm   | initialize | union | find |
     | quick-find  | N          | N     | 1    |
     | quick-union | N          | N     | N    |
-    ```
 
     We have `N` for union and find because of our `while` loop, thus,
     quick-union is also too slow.
@@ -453,9 +447,9 @@ that could otherwise not be addressed.
 | ---                            | ---             |
 | quick-find                     | M N             |
 | quick-union                    | M N             |
-| weighted QU                    | N + M log N      |
-| QU + path-compression          | N + M log N      |
-| weighted QU + path-compression | N + M lg* N      |
+| weighted QU                    | N + M log N     |
+| QU + path-compression          | N + M log N     |
+| weighted QU + path-compression | N + M lg* N     |
 
 _M union-find operations on a set of N objects_
 
