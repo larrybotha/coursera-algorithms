@@ -1,0 +1,24 @@
+<project name="Percolation" basedir="." default="main">
+  <property name="src.dir"    value="src"/>
+  <property name="lib.dir"    value="lib"/>
+  <property name="src.file"   value="Percolation.java"/>
+
+  <!-- create our ant classpath using the fileset task -->
+  <path id="class.path">
+
+    <!-- include all jars in the lib directory and all sub-directories -->
+    <fileset dir="${lib.dir}">
+      <include name="**/*.jar" />
+    </fileset>
+  </path>
+
+  <target name="main">
+    <java
+      fork="true"
+      failonerror="yes"
+      sourcefile="${src.dir}/${src.file}"
+    >
+    <classpath refid="class.path"/>
+  </java>
+  </target>
+</project>

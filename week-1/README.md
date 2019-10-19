@@ -29,6 +29,7 @@
     - [Percolation phase transition](#percolation-phase-transition)
     - [Monte carlo simulation](#monte-carlo-simulation)
     - [Dynamic connectivity solution to estimate percolation threshold](#dynamic-connectivity-solution-to-estimate-percolation-threshold)
+- [Homework: Percolation](#homework-percolation)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -613,3 +614,10 @@ What is the percolation threshold?
     simulation; there is no mathematical proof yet).
 
 A fast algorithm enables an accurate answer to a scientific question.
+
+## Homework: Percolation
+
+```bash
+$ nodemon --exec "ant -emacs -f week-1/percolation/build.xml" \
+  --watch week-1/percolation/src/**/*.java
+```
