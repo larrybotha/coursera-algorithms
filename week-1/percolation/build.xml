@@ -18,7 +18,11 @@
       failonerror="yes"
       sourcefile="${src.dir}/${src.file}"
     >
-    <classpath refid="class.path"/>
-  </java>
+      <classpath refid="class.path"/>
+    </java>
+  </target>
+
+  <target name="echo">
+    <echo message="${toString:class.path}" />
   </target>
 </project>
