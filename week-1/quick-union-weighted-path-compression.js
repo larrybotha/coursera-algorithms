@@ -1,4 +1,4 @@
-const quickUnionWeighted = numObjects => {
+const quickUnionWPc = numObjects => {
   const ids = [];
   const sz = [];
 
@@ -58,4 +58,4 @@ const quickUnionWeighted = numObjects => {
   };
 };
 
-module.exports = {quickUnionWeighted};
+module.exports = {quickUnionWPc};
