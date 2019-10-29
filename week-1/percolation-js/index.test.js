@@ -26,5 +26,8 @@ const drawGrid = xs => {
   return grid;
 };
 
-p.open(2, 3);
+p.open(1, 7);
+p.open(2, 7);
+p.open(2, 8);
 log(drawGrid(p.getGrid()));
+log(p.isFull(2, 7));

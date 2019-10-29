@@ -47,11 +47,22 @@ const percolation = n => {
 
     grid[id] = true;
 
-    for (let r = row - 1; r < row + 2; r++) {
-      for (let c = col - 1; c < col + 2; c++) {
-        if (r > 0 && c > 0 && r < n + 1 && c < n + 1 && isOpen(r, c)) {
-          qu.union(id + 1, getId(r, c) + 1);
-        }
+    const adjacentRows = [row - 1, row + 1];
+    const adjacentCols = [col - 1, col + 1];
+
+    for (let i = 0; i < adjacentRows.length; i++) {
+      const r = adjacentRows[i];
+
+      if (r > 0 && r < n + 1 && isOpen(r, col)) {
+        qu.union(id + 1, getId(r, col) + 1);
+      }
+    }
+
+    for (let i = 0; i < adjacentCols.length; i++) {
+      const c = adjacentCols[i];
+
+      if (c > 0 && c < n + 1 && isOpen(row, c)) {
+        qu.union(id + 1, getId(row, c) + 1);
       }
     }
   };
@@ -67,7 +78,7 @@ const percolation = n => {
   const isFull = (row, col) => {
     const id = getId(row, col);
 
-    return qu.connected(0, id + 1);
+    return isOpen(row, col) && qu.connected(0, id + 1);
   };
 
   // numberOfOpenSites :: () -> int
