@@ -85,7 +85,9 @@ const percolation = n => {
   const numberOfOpenSites = () => grid.filter(Boolean).length;
 
   // percolates :: () -> boolean
-  const percolates = () => {};
+  const percolates = () => {
+    return qu.connected(0, n ** 2 + 1);
+  };
 
   // getGrid :: () => boolean[]
   const getGrid = () => grid;
