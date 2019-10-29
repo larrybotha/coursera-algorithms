@@ -3,17 +3,15 @@ const {quickUnionWPc} = require('../quick-union-weighted-path-compression');
 const percolation = n => {
   const grid = [];
   const ids = [];
-  let qu;
+  /**
+   * create union with an additional node before and after our grid
+   */
+  const qu = quickUnionWPc(n ** 2 + 2);
 
   for (let i = 0; i < n ** 2; i++) {
     ids[i] = i;
     grid[i] = false;
   }
-
-  /**
-   * create union with an additional node before and after our grid
-   */
-  qu = quickUnionWPc(n ** 2 + 2);
 
   /**
    * connect the first 10 grid items to the 0 node
