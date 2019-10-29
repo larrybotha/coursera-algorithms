@@ -2,7 +2,7 @@ const quickUnionWPc = numObjects => {
   const ids = [];
   const sz = [];
 
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < numObjects; i++) {
     ids[i] = i;
     sz[i] = 1;
   }
