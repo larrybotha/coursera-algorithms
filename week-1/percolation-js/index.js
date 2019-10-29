@@ -29,13 +29,31 @@ const percolation = n => {
     qu.union(i, n ** 2 + 1);
   }
 
-  const getId = (row, col) => (row - 1) * (n - 1) + col;
+  const getId = (row, col) => {
+    if (row < 1 || col < 1) {
+      throw `Out of bounds, (${row}, ${col}) may not be less than 1`;
+    }
+
+    if (row > n || col > n) {
+      throw `Out of bounds, (${row}, ${col}) may not be greater than ${n}`;
+    }
+
+    return (row - 1) * n + (col - 1);
+  };
 
   // open :: int -> int -> void
   const open = (row, col) => {
     const id = getId(row, col);
 
     grid[id] = true;
+
+    for (let r = row - 1; r < row + 2; r++) {
+      for (let c = col - 1; c < col + 2; c++) {
+        if (r > 0 && c > 0 && r < n + 1 && c < n + 1 && isOpen(r, c)) {
+          qu.union(id + 1, getId(r, c) + 1);
+        }
+      }
+    }
   };
 
   // isOepn :: int -> int -> boolean
@@ -49,7 +67,7 @@ const percolation = n => {
   const isFull = (row, col) => {
     const id = getId(row, col);
 
-    return !Boolean(grid[id]);
+    return qu.connected(0, id + 1);
   };
 
   // numberOfOpenSites :: () -> int
