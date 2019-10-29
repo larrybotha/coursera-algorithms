@@ -618,6 +618,12 @@ A fast algorithm enables an accurate answer to a scientific question.
 ## Homework: Percolation
 
 ```bash
+# js implementation
+$ nodemon week-1/percolation-js/index.test.js
+```
+
+```bash
+# java implementation
 $ nodemon --exec "ant -emacs -f week-1/percolation/build.xml" \
   --watch week-1/percolation/src/**/*.java
 ```
