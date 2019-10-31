@@ -1,8 +1,10 @@
 const {percolation} = require('./index');
 
 const log = (...args) => console.log(...args);
+const n = 20;
+const p = percolation(n);
 
-const p = percolation(10);
+const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
 const drawGrid = xs => {
   const {length} = xs;
@@ -20,14 +22,32 @@ const drawGrid = xs => {
 
       return acc;
     }, [])
-    .map(ys => ys.map(y => (y === false ? 'x' : 'o')).join(' '))
+    .map(ys => ys.map(y => (y === false ? '•' : '·')).join(' '))
     .join('\n');
 
   return grid;
 };
 
-p.open(1, 7);
-p.open(2, 7);
-p.open(2, 8);
-log(drawGrid(p.getGrid()));
-log(p.isFull(2, 7));
+const loop = () => {
+  setTimeout(() => {
+    const randRow = randInt(1, n);
+    const randCol = randInt(1, n);
+    console.clear();
+
+    p.open(randRow, randCol);
+
+    const percolates = p.percolates();
+    const numOpen = p.numberOfOpenSites();
+
+    log(drawGrid(p.getGrid()));
+    log(`percolates: ${percolates}`);
+    log(`num open: ${numOpen} of ${n ** 2}`);
+    log(`threshold: ${numOpen / n ** 2}`);
+
+    if (!percolates) {
+      loop();
+    }
+  }, 25);
+};
+
+loop();
