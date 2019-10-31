@@ -617,6 +617,8 @@ A fast algorithm enables an accurate answer to a scientific question.
 
 ## Homework: Percolation
 
+![animated svg of percolation on command line](./images/percolation.svg)
+
 ```bash
 # js implementation
 $ nodemon week-1/percolation-js/index.test.js
