@@ -14,6 +14,8 @@
     - [N-body simulation](#n-body-simulation)
   - [The challenge](#the-challenge)
   - [Scientific method applied to analysis of algorithms](#scientific-method-applied-to-analysis-of-algorithms)
+- [Observations of running times of programs](#observations-of-running-times-of-programs)
+  - [3-SUM](#3-sum)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -109,3 +111,28 @@ The scientific method has the following principles:
 
 - experiments must be reproducible
 - hypotheses must be falsifiable
+
+## Observations of running times of programs
+
+### 3-SUM
+
+Given N distinct integers, how many triples sum to exactly zero?
+
+e.g.
+
+```
+Given: 30 -40 -20 -10 40 0 10 5
+Result: 4
+```
+
+Because:
+
+|     | a[i] | a[j] | a[k] | sum |
+| --- | ---  | ---  | ---  | --- |
+| 1   | 30   | -40  | 10   | 0   |
+| 2   | 30   | -20  | -10  | 0   |
+| 3   | -40  | 40   | 0    | 0   |
+| 4   | -10  | 0    | 10   | 0   |
+
+
+This is related to many problems in [computational geometry](https://www.wikiwand.com/en/Computational_geometry).
