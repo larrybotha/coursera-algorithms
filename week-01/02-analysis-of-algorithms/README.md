@@ -16,6 +16,7 @@
   - [Scientific method applied to analysis of algorithms](#scientific-method-applied-to-analysis-of-algorithms)
 - [Observations of running times of programs](#observations-of-running-times-of-programs)
   - [3-SUM](#3-sum)
+    - [Brute force implementation](#brute-force-implementation)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -136,3 +137,11 @@ Because:
 
 
 This is related to many problems in [computational geometry](https://www.wikiwand.com/en/Computational_geometry).
+
+#### Brute force implementation
+
+[3-sum-brute-force.js](./3-sum-brute-force.js)
+
+```bash
+$ nodemon week-01/02-analysis-of-algorithms/3-sum-brute-force.running-time.js
+```
