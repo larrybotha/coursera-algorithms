@@ -6,27 +6,33 @@ const {createTimer} = require('./create-timer');
 
 const log = (...args) => console.log(...args);
 
-const arrLength = 100;
+const arrLength = process.argv[2] ? parseInt(process.argv[2], 10) : 200;
 const numArrays = 10;
 
 const arbLargeIntArr = fc
-  .array(fc.integer(), arrLength, arrLength)
+  .array(fc.integer(), arrLength, arrLength * 2)
   .map(xs => {
     const s = new Set(xs);
 
     return [...s.values()];
   })
-  .filter(xs => xs.length < arrLength);
+  .map(xs => xs.slice(0, arrLength))
+  .filter(xs => xs.length === arrLength);
 const xxs = fc.sample(arbLargeIntArr, numArrays);
+
+let durations = [];
 
 const handleTimerEntry = entry => {
   const arr = entry[0];
   const iteration = entry[1];
   const {duration, name} = entry;
+  const durationInSeconds = duration / 1000;
+
+  durations = durations.concat(durationInSeconds);
 
   log(`${name} iteration: ${iteration}`);
   log(`# items:`, arr.length);
-  log(`duration:`, duration);
+  log(`duration: ${durationInSeconds}s`);
 };
 
 const {wrappedFn: wrappedThreeSum, obs} = createTimer(
@@ -44,3 +50,9 @@ xxs.map((xs, i) => {
     obs.disconnect();
   }
 });
+
+const avgDuration = (
+  durations.reduce((acc, x) => acc + parseFloat(x, 10), 0) / numArrays
+).toPrecision(3);
+
+log(`avg duration: ${avgDuration}s`);
