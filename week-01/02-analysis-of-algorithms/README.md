@@ -22,6 +22,7 @@
   - [Experimental algorithmics](#experimental-algorithmics)
     - [System-independent factors](#system-independent-factors)
     - [System-dependent factors](#system-dependent-factors)
+- [Mathematical Models](#mathematical-models)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -336,3 +337,5 @@ the power law.
 - hardware, i.e. CPU, memory, cache
 - software, i.e. compiler, interpreter, garbage collector
 - system, i.e. OS, network, other apps
+
+## Mathematical Models
