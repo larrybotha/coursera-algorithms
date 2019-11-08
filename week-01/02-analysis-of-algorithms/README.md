@@ -24,6 +24,7 @@
     - [System-dependent factors](#system-dependent-factors)
 - [Mathematical Models](#mathematical-models)
   - [Mathematical models for running time](#mathematical-models-for-running-time)
+  - [Cost of basic operations](#cost-of-basic-operations)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -353,3 +354,39 @@ In order to determine these values, we need to:
 - analyze the program to determine the set of operations
 - evaluate the machine and compiler as this will affect costs
 - determine the frequency by evaluating the algorithm and the data inputs
+
+Donald Knuths _Art Of Programming_ series goes into these models in depth.
+
+### Cost of basic operations
+
+| operation               | example          | nanoseconds† |
+| ---                     | ---              | ---          |
+| integer add             | a + b            | 2.1          |
+| integer multiply        | a * b            | 2.4          |
+| integer divide          | a / b            | 5.4          |
+| floating-point add      | a + b            | 4.6          |
+| floating-point multiply | a * b            | 4.2          |
+| floating-point divide   | a / b            | 13.5         |
+| sine                    | Math.sine(theta) | 91.3         |
+| arctangent              | Math.atan2(y, x) | 129.0        |
+| ...                     | ...              | ...          |
+
+† - Mac OS X Macbook Pro 2.2GHz with 2GB RAM
+
+| operation            | example                 | nanoseconds† |
+| ---                  | ---                     | ---          |
+| variable declaration | int a                   | c1           |
+| assignment statement | a = b                   | c2           |
+| integer compare      | a > b                   | c3           |
+| array element access | a[i]                    | c4           |
+| array length         | xs.length               | c5           |
+| 1-D array allocation | new int[N]              | c6 * N       |
+| 2-D array allocation | new int[N][N]           | c7 * N^2     |
+| string length        | str.length              | c8           |
+| substring extraction | str.substring(N / 2, N) | c9           |
+| string concatenation | s + t                   | c10 * N      |
+
+where c[num] is an operation that runs in constant time.
+
+We can see that string concatenation is not constant time; string concatenation
+depends on the length of a string.
