@@ -23,6 +23,7 @@
     - [System-independent factors](#system-independent-factors)
     - [System-dependent factors](#system-dependent-factors)
 - [Mathematical Models](#mathematical-models)
+  - [Mathematical models for running time](#mathematical-models-for-running-time)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -339,3 +340,16 @@ the power law.
 - system, i.e. OS, network, other apps
 
 ## Mathematical Models
+
+Observing performance helps predict what will happen, but doesn't explain why
+it's happening. Mathematical modeling helps us do that.
+
+### Mathematical models for running time
+
+*Total running time:* sum of cost * frequency of all operations
+
+In order to determine these values, we need to:
+
+- analyze the program to determine the set of operations
+- evaluate the machine and compiler as this will affect costs
+- determine the frequency by evaluating the algorithm and the data inputs
