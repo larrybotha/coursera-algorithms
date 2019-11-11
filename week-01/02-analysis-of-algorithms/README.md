@@ -25,6 +25,15 @@
 - [Mathematical Models](#mathematical-models)
   - [Mathematical models for running time](#mathematical-models-for-running-time)
   - [Cost of basic operations](#cost-of-basic-operations)
+  - [Frequency of operations](#frequency-of-operations)
+    - [1-sum](#1-sum)
+    - [2-sum](#2-sum)
+  - [Simplifying calculations](#simplifying-calculations)
+    - [Simplifcation 1: Cost model](#simplifcation-1-cost-model)
+    - [Simplification 2: tilde notation](#simplification-2-tilde-notation)
+      - [Example: 3-sum](#example-3-sum)
+  - [Estimating a discrete sum](#estimating-a-discrete-sum)
+  - [Summary](#summary)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -390,3 +399,159 @@ where c[num] is an operation that runs in constant time.
 
 We can see that string concatenation is not constant time; string concatenation
 depends on the length of a string.
+
+### Frequency of operations
+
+#### 1-sum
+
+For an algorithm where we return the number of occurrences of 0 from an array of values
+of length N, how many instructions are run?
+
+```javascript
+let count = 0;
+
+for (let i = 0; i < N; i++) {
+  if (xs[i] === 0) {
+    count++;
+  }
+}
+```
+
+| operation            | frequency  |
+| ---                  | ---        |
+| variable declaration | 2          |
+| assignment statement | 2          |
+| less than comparison | N + 1      |
+| equality comparison  | N          |
+| array access         | N          |
+| increment            | N to 2 * N |
+
+
+#### 2-sum
+
+Find number of pairs of values that when added together equal 0. How many
+instructions are run?
+
+```javascript
+let count = 0;
+
+for (let i = 0; i < N; i++) {
+  for (let j = i + 1; j < N; j++) {
+    if (xs[i] + xs[j] === 0) {
+      count++;
+    }
+  }
+}
+```
+
+| operation            | frequency                        |
+| ---                  | ---                              |
+| variable declaration | N + 2                            |
+| assignment statement | N + 2                            |
+| less than comparison | 1/2 * (N + 1)(N + 2)             |
+| equality comparison  | 1/2 * N * (N - 1)†               |
+| array access         | N * (N - 1)                      |
+| increment            | 1/2 * N * (N - 1) to N * (N - 1) |
+
+† - equivalent to:
+
+0 + 1 + 2 + ... + (N - 1)
+= 1/2 * N * (N - 1)
+= N Choose 2
+
+### Simplifying calculations
+
+The above calculations quickly get tedious. Turing noted in 1947 that one can
+still get valuable information by simplifying the frequencies, and focusing on
+the operations that are most expensive.
+
+#### Simplifcation 1: Cost model
+
+Use some basic operation as a proxy for time.
+
+e.g. in 2-sum problem, array access is the most expensive, so we have the
+following for our cost model:
+
+```
+N * (N - 1)
+```
+
+#### Simplification 2: tilde notation
+
+- estimate running time (or memory) as a function of input size N
+- ignore lower order terms
+  - when N is large, ignore lower terms
+  - when N is small, we don't care, because for small N's running time will
+      always be small
+
+e.g.
+
+1/6 N^3 + 20N + 16          ~ 1/6 N^3
+1/6 N^3 + 100N^(4/3) + 56   ~ 1/6 N^3
+1/6 N^3 + 1/2N^2 + 1/3N     ~ 1/6 N^3
+
+With tilde notation we get the following table:
+
+| operation            | frequency                        | tilde notation |
+| ---                  | ---                              | ---            |
+| variable declaration | N + 2                            | N              |
+| assignment statement | N + 2                            | N              |
+| less than comparison | 1/2 * (N + 1)(N + 2)             | 1/2N^2         |
+| equality comparison  | 1/2 * N * (N - 1)†               | 1/2N^2         |
+| array access         | N * (N - 1)                      | N^2            |
+| increment            | 1/2 * N * (N - 1) to N * (N - 1) | 1/2N^2 to N^2  |
+
+##### Example: 3-sum
+
+Approximately how many array accesses are there as a function of input size N?
+
+```javascript
+  let count = 0;
+
+  for (let i = 0; i < length; i++) {
+    for (let j = i + 1; j < length; j++) {
+      for (let k = j + 1; k < length; k++) {
+        if (xs[i] + xs[j] + xs[k] === 0) {
+          count++;
+        }
+      }
+    }
+  }
+```
+
+(N * (N - 1) * (N - 2)) / 3! = N Choose 3 ~ 1/6 * N^3
+
+Therefore we have 1/6 * N^3 array accesses
+
+### Estimating a discrete sum
+
+How do we estimate a discrete sum?
+
+- using discrete maths, or
+- replace the sum with an integral, and use calculus
+
+e.g. 1
+
+1 + 2 + 3 + ... + N
+~ ∑ i
+~ ∫ x dx
+~ 1/2 * N^2
+
+e.g. 2
+
+1 + 1/2 + 1/3 + ... + 1/N
+~ ∑ 1/i
+~ ∫ 1/x dx
+= ln N
+
+e.g. 3
+3-sum triple-loop
+~ ∑∑∑ 1
+~ ∫∫∫ dx dy dz
+~ 1/6 N^3
+
+### Summary
+
+Accurate mathematical models are available.
+
+Not pragmatic to use them, favour approximate models to determine cost instead.
