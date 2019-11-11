@@ -5,5 +5,5 @@ windows:
   - frontend:
       layout: main-vertical
       panes:
-        - vim week-1/README.md
+        - vim week-1/02-analysis-of-algorithms/README.md
         -
