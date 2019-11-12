@@ -34,6 +34,13 @@
       - [Example: 3-sum](#example-3-sum)
   - [Estimating a discrete sum](#estimating-a-discrete-sum)
   - [Summary](#summary)
+- [Order-of-Growth Classifications](#order-of-growth-classifications)
+  - [Common order-of-growth classifications](#common-order-of-growth-classifications)
+  - [Practical implications of order-of-growth](#practical-implications-of-order-of-growth)
+  - [Binary search demo](#binary-search-demo)
+    - [Binary search: mathematical analysis](#binary-search-mathematical-analysis)
+  - [An N^2 log N algorithm for 3-sum](#an-n%5E2-log-n-algorithm-for-3-sum)
+    - [Comparing programs](#comparing-programs)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -555,3 +562,140 @@ e.g. 3
 Accurate mathematical models are available.
 
 Not pragmatic to use them, favour approximate models to determine cost instead.
+
+## Order-of-Growth Classifications
+
+There are only a few functions which determine performance of an algorithm as
+input size grows:
+
+- 1
+- log N
+- N
+- N log N
+- N^2
+- N^3
+- 2^N
+
+These functions are sufficient to describe the order of growth of typical
+algorithms.
+
+*Note:* Order-of-growth discards leading coefficients.
+
+For algorithms described by a linear function, running time scales linearly with
+input size. This is similar for `N log N` algorithms.
+
+These are the algorithms we strive for.
+
+Conversely, if we define an algorithm that is described by `N^2` or anything
+larger, we know immediately that that algorithm is going to be problematic for
+large  input sizes.
+
+### Common order-of-growth classifications
+
+| order of growth | name         | typical code framework             | description        | example           | T(2N) / T(N) (i.e. doubling test) |
+| ---             | ---          | ---                                | ---                | ---               | ---                               |
+| 1               | constant     | `a = b + c`                        | statement          | add two numbers   | 1                                 |
+| log N           | logarithmic  | `while (N > 1) { N = N / 2; ... }` | divide in half     | binary search     | ~1                                |
+| N               | linear       | `for (let i = 0; ...) { ... }`     | loop               | find the maximum  | 2                                 |
+| N log N         | linearithmic | see merge sort                     | divide and conquer | mergeSort         | ~2                                |
+| N^2             | quadratic    | nested loop                        | double loop        | check all pairs   | 4                                 |
+| N^3             | cubic        | double nested loop                 | triple loop        | check all triples | 8                                 |
+| 2^N             | exponential  | see combinatorial search           | exhaustive search  | check all subsets | T(N)                              |
+
+### Practical implications of order-of-growth
+
+The only algorithms that can practically solve problems, regardless of
+computing power, are those that have orders lower than N^2. This has been true
+since the 1970s.
+
+### Binary search demo
+
+[binary-search.js](./binary-search.js)
+
+#### Binary search: mathematical analysis
+
+*Proposition:* Binary search uses at most `1 + lg N` comparisons to search in a
+sorted array of size N
+
+*Def.:* T(N) = # compares to binary search in a sorted subarray of size <= N
+
+Binary search recurrence:
+
+```
+T(N) <= T(N/2) + 1 for N > 1, with T(1) = 1
+          [2]    [    3    ]  [     4     ]
+[     1      ]
+
+1 - divide the problem in half
+2 - use the left half or right half
+3 - when N is greater than 1
+4 - if N = 1, then we have our answer
+
+
+T(N)  <= T(N/2) + 1                 given
+      <= T(N/4) + 1 + 1             apply recurrence to first term
+      <= T(N/8) + 1 + 1 + 1         apply recurrence to second term
+      <= ...
+      <= T(N/N) + 1 + 1 + ... + 1   stop applying, T(1) = 1
+      <= 1 + lg N
+```
+
+### An N^2 log N algorithm for 3-sum
+
+We know that binary search has order of growth `lg N`; we can apply that to
+3-sum for a more performant algorithm:
+
+1. sort the N distinct numbers
+2. for each pair of numbers `a[i]` and `a[j]`, perform a binary search for
+   `-(a[i] + a[j])`. That numner, if in the array, is the solution to a 3-sum
+
+```
+input:
+30 -40 -20 -10 40 0 10 5
+
+sorted:
+-40 -20 -10 0 5 10 30 40
+
+binary search:
+(-40, -20)            no result
+(-40, -10)            no result
+(-40, 0)              40
+...
+(-40, 40)             0
+...
+```
+
+*Analysis:* Order of growth is `N^2 log N`
+
+- Step 1: N^2 with insertion sort
+- Step 2: N^2 log N with binary search
+
+`N^2 log N` is much less than `N^2` for large `N`
+
+#### Comparing programs
+
+*Hypothesis:* The sorting-based `N^2 log N` algorithm for 3-sum is significantly
+faster in practice than the brute force `N^3` algorithm.
+
+3-sum brute force:
+
+| N    | time (seconds) |
+| ---  | ---            |
+| 1000 | 0.1            |
+| 2000 | .8             |
+| 4000 | 6.4            |
+| 8000 | 51.1           |
+
+3-sum with sorting
+
+| N     | time (seconds) |
+| ---   | ---            |
+| 1000  | .14            |
+| 2000  | .18            |
+| 4000  | .34            |
+| 8000  | .96            |
+| 16000 | 3.67           |
+| 32000 | 14.88          |
+| 6000  | 59.16          |
+
+*Guiding principle:* Typically, a better order-of-growth is faster in practice
