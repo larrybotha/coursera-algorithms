@@ -41,6 +41,8 @@
     - [Binary search: mathematical analysis](#binary-search-mathematical-analysis)
   - [An N^2 log N algorithm for 3-sum](#an-n%5E2-log-n-algorithm-for-3-sum)
     - [Comparing programs](#comparing-programs)
+- [Theory of Algorithms](#theory-of-algorithms)
+  - [Theory of algorithms](#theory-of-algorithms)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -699,3 +701,58 @@ faster in practice than the brute force `N^3` algorithm.
 | 6000  | 59.16          |
 
 *Guiding principle:* Typically, a better order-of-growth is faster in practice
+
+## Theory of Algorithms
+
+The inputs of a program can result in the performance of an algorithm varying
+widely. It's useful to analyse algorithms in terms of different inputs.
+
+The performance of an algorithm will always lie somewhere between the input that
+results in the best case, and the input that results in the worst case.
+
+Types of analyses:
+
+- Best case: lower bound on cost
+    - determined by 'easiest' input
+    - provides a goal for all inputs
+- Worst case: upper bound on cost
+    - determined by 'most difficult' input
+    - provides a guarantee all inputs
+- Average case: expected cost for random input
+    - we require a way to model for a random input
+    - this analysis provides a way to predict performance
+
+For brute-force 3-sum we have the following:
+
+| best    | ~ 1/2 N^3 |
+| worst   | ~ 1/2 N^3 |
+| average | ~ 1/2 N^3 |
+
+For binary search 3-sum we have:
+
+| best    | ~ 1    |
+| worst   | ~ lg N |
+| average | ~ lg N |
+
+We also need to take into account the client's problem that needs to be solved.
+What if the actual data doesn't match the data of the input model?
+
+- we need to understand the input to effectively process it
+- approach 1: design for the worst case
+- approach 2: randomise, and depend on probabilistic guarantee
+
+### Theory of algorithms
+
+This leads to the theory of algorithms, which has the following goals:
+
+- establish "difficulty" of a problem
+- develop "optimal" algorithms
+
+We can meet these goals with the following approaches:
+
+- suppress details in analysis: analyse "to within a constant factor"
+- eliminate variability in input model by focusing on the worst case
+
+For an optimal algorithm, we want
+
+- a performance guarantee (to within a constant)
