@@ -43,6 +43,8 @@
     - [Comparing programs](#comparing-programs)
 - [Theory of Algorithms](#theory-of-algorithms)
   - [Theory of algorithms](#theory-of-algorithms)
+    - [Commonly-used notations in theory of algorithms](#commonly-used-notations-in-theory-of-algorithms)
+    - [Theory of algorithms: Example 1](#theory-of-algorithms-example-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -756,3 +758,16 @@ We can meet these goals with the following approaches:
 For an optimal algorithm, we want
 
 - a performance guarantee (to within a constant)
+- no algorithm can provide a better performance guarantee
+
+#### Commonly-used notations in theory of algorithms
+
+| notation  | provides                   | example | shorthand for       | used to              |
+| ---       | ---                        | ---     | ---                 | ---                  |
+| Big Theta | asymptotic order of growth | Θ(N^2)  | 1/2N^2, 10N^2, etc. | classify algorithms  |
+| Big Oh    | Θ(N^2) and smaller         | O(N^2)  | 10N^2, 100N, etc.   | develop upper bounds |
+| Big Omega | Θ(N^2) and larger          | Ω(N^2)  | 1/2N^2, N^5, etc.   | develop lower bounds |
+
+Big Theta is essentially a way to describe anything that is of the order N^2.
+
+#### Theory of algorithms: Example 1
