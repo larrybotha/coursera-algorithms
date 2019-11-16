@@ -45,6 +45,8 @@
   - [Theory of algorithms](#theory-of-algorithms)
     - [Commonly-used notations in theory of algorithms](#commonly-used-notations-in-theory-of-algorithms)
     - [Theory of algorithms: Example 1](#theory-of-algorithms-example-1)
+    - [Theory of algorithsm: Example 2](#theory-of-algorithsm-example-2)
+  - [Algoruthm design approach](#algoruthm-design-approach)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -771,3 +773,82 @@ For an optimal algorithm, we want
 Big Theta is essentially a way to describe anything that is of the order N^2.
 
 #### Theory of algorithms: Example 1
+
+Goals:
+
+- establish the "difficulty" of a problem
+- develop "optimal' algorithms
+- e.g. 1-sum = "is there a 0 in the array"
+
+The upper bound of a problm is some specific algorithm:
+
+- e.g. 1-sum brute force: look at every array entry
+- runnninng time of the optimal algorithm for 1-sum is `O(N)`
+
+A lower bound is a proof that no algorithm can do better:
+
+- e.g. for 1-sum, we have to examine every N. Any unexamined item may be 0
+- the running time for the optimal algorithm for 1-sum is `Ω(N)`
+
+This is proof that for 1-sum we have an optimal algorithm:
+
+- lower bound is equal to upper bound (to within a constant factor)
+- e.g. the brute-force algorithm for 1-sum is optimal: its running time is `Θ(N)`
+
+#### Theory of algorithsm: Example 2
+
+Goals:
+
+- establish "difficulty" of a problem
+- develop "optimal" algorithms
+- e.g. 3-sum
+
+Upper bound: defined by a specific algorithm:
+
+- e.g. brute-force for 3-sum
+- running time for the optimal algorithm for 3-sum is `O(N^3)`
+
+but, we found an improved algorithm:
+
+- i.e. runnning time of the optimal algorithm for 3-sum  is `O(N^2 log N)`
+
+Lower bound: proof that no algorithm can do netter
+
+- e.g. we have to examine all entries to solve 3-sum
+- the running time for the optimal algorithm for 3-sum is `Ω(N)`
+
+The optimal algorithm for 3-sum is an open problem. Is there a subquadaratic
+algorithm or quadratic lower bound for 3-sum? We don't know how difficult it is
+to solve the 3-sum problem.
+
+### Algoruthm design approach
+
+This has been a successful strategy for decades in designing algorithms:
+
+- start with a problem
+- develop an algorithm
+- prove a lower bound
+- is there a gap between the lower and upper bound?
+    - try to lower the upper bounnd (find a new algorithm), or
+    - try to raise the lower bound (more difficult)
+
+Caveats in the context of this course:
+
+- is it overly pessimistic to focus on worst case? We can't pragmatically
+    prepare for the worst case. It's more efficient to focus on problems
+    specific to the innput
+- need better than "to within a constant factor" to predict performance. Instead
+    of talking about Big Theta, Oh, and Omega, we'll focus on usinng tilde
+    notation.
+
+| notation       | provides                   | example  | shorthand for               | used to                  |
+| ---            | ---                        | ---      | ---                         | ---                      |
+| tilde notation | leading term               | ~ 10 N^2 | 10 N^2, 10 N^2 + 22 N log N | provide apprximate model |
+| Big Theta      | asymptotic order of growth | Θ(N^2)   | 1/2N^2, 10N^2, etc.         | classify algorithms      |
+| Big Oh         | Θ(N^2) and smaller         | O(N^2)   | 10N^2, 100N, etc.           | develop upper bounds     |
+| Big Omega      | Θ(N^2) and larger          | Ω(N^2)   | 1/2N^2, N^5, etc.           | develop lower bounds     |
+
+It's a common mistake to interpret Big Oh as an approximate model. Research has
+shown that it's not a good approximation.
+
+Use tilde notation instead.
