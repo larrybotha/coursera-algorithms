@@ -47,6 +47,8 @@
     - [Theory of algorithms: Example 1](#theory-of-algorithms-example-1)
     - [Theory of algorithsm: Example 2](#theory-of-algorithsm-example-2)
   - [Algoruthm design approach](#algoruthm-design-approach)
+- [Summary](#summary-1)
+  - [Empirical analysis](#empirical-analysis-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -852,3 +854,9 @@ It's a common mistake to interpret Big Oh as an approximate model. Research has
 shown that it's not a good approximation.
 
 Use tilde notation instead.
+
+## Summary
+
+### Empirical analysis
+
+-
