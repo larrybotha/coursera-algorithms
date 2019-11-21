@@ -49,6 +49,8 @@
   - [Algoruthm design approach](#algoruthm-design-approach)
 - [Summary](#summary-1)
   - [Empirical analysis](#empirical-analysis-1)
+  - [Mathematical analysis](#mathematical-analysis)
+  - [Scientific method](#scientific-method)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -859,4 +861,24 @@ Use tilde notation instead.
 
 ### Empirical analysis
 
--
+- execute the program to perform experiments
+- assume power law and formulate a hypothesis for running time
+- this model allows us to make predictions
+
+### Mathematical analysis
+
+We can go further than empirical analysis by making use of mathematical
+analysis:
+
+- analyse the algorithm to count the frequency of operations
+- use tilde notation to simplify analysis
+- this model allows one to explain behaviour
+
+### Scientific method
+
+Using both methods we have an effective method for analysing algorithms:
+
+- the mathematical model is independent of a particular system; it applies to
+    machines not yet even built
+- empirical analysis is necessary to validate mathematical analysis, and for
+    making predictions
